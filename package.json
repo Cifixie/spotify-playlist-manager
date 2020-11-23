@@ -1,0 +1,11 @@
+{
+  "name": "spotify-plm",
+  "version": "0.1.0",
+  "description": "Spotify Playlist Manager",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
