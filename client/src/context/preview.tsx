@@ -5,9 +5,20 @@ import React, {
   useContext,
   useCallback,
   useMemo,
+  Dispatch,
+  SetStateAction,
 } from "react";
+import { Preview } from "../Player";
 
-const preview = createContext();
+interface Preview {
+  uri: string | null;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+}
+
+type UsePreview = [Preview, Dispatch<SetStateAction<Preview>>];
+const preview = createContext<UsePreview | undefined>(undefined);
 
 export const useSetPreviewUri = () => {
   const [, setPreview] = useContext(preview);
@@ -28,7 +39,8 @@ const PreviewProvider: FC = ({ children }) => (
     value={useState({
       uri: null,
       isPlaying: false,
-      timeRemaining: 0,
+      currentTime: 0,
+      duration: 0,
     })}
   >
     {children}

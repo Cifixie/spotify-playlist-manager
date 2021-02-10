@@ -7,5 +7,6 @@
   "workspaces": [
     "client",
     "server"
-  ]
+  ],
+  "dependencies": {}
 }

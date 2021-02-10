@@ -20,6 +20,21 @@ const Button = styled.button`
 const Info = styled.div`
   flex-grow: 1;
   margin: 0 1rem;
+  display: grid;
+  grid-template-areas: "progressBar";
+`;
+
+const ProgressBar = styled.div`
+  border-radius: 1rem;
+  height: 1rem;
+  width: 0;
+  background-color: blue;
+  grid-area: progressBar;
+`;
+
+const Backtrack = styled(ProgressBar)`
+  width: 100%;
+  background-color: lightgray;
 `;
 
 export const Preview = ({ uri }) => {
@@ -33,7 +48,7 @@ export const Preview = ({ uri }) => {
 };
 
 export default () => {
-  const [{ uri, isPlaying, timeRemaining }, setPreview] = usePreview();
+  const [{ uri, isPlaying, currentTime, duration }, setPreview] = usePreview();
 
   const ref = useRef(null);
 
@@ -65,11 +80,8 @@ export default () => {
         <i className={`far fa-${icon}-circle`} />
       </Button>
       <Info>
-        {timeRemaining ? (
-          <span>{timeRemaining} %</span>
-        ) : (
-          <span>No preview selected</span>
-        )}
+        <Backtrack />
+        <ProgressBar style={{ width: `${(currentTime / duration) * 100}%` }} />
       </Info>
       <audio
         autoPlay
@@ -84,14 +96,16 @@ export default () => {
           } = e;
           setPreview((p) => ({
             ...p,
-            timeRemaining: ((currentTime / duration) * 100).toFixed(1),
+            currentTime,
+            duration,
           }));
         }}
         onEnded={() => {
           setPreview({
             uri: null,
             isPlaying: false,
-            timeRemaining: 0,
+            currentTime: 0,
+            duration: 0,
           });
         }}
       ></audio>
